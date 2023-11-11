@@ -16,9 +16,9 @@ const user_register_post = async (req, res) => {
         console.log(req.body);
   
         const emailValidation = validation(email, 'email')
-        if (!validator.isEmail(emailValidation)) {
+        if (!validator.isEmail(emailValidation)) 
           return res.status(400).json({ status: 0, message: 'Email is INVALID' });
-      }
+      
 
         const passwordValidation = validation(password, 'password')
         if (!passwordValidation.valid) return res.status(400).json({ status: 0, message: passwordValidation.message })
