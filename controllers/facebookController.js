@@ -33,7 +33,7 @@ const facebook = async (accessToken, refreshToken, profile, cb) => {
 
 const facebook_callback_get = (req, res) => {
     // Successful authentication, redirect to success screen.
-    res.redirect('http://localhost:3000/api/auth/facebook/success');
+    res.redirect('https://projectscopey.onrender.com/api/auth/facebook/success');
 }
 
 const facebook_success_get = async (req, res) => {

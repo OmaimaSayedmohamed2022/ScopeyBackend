@@ -21,7 +21,7 @@ passport.use(new FacebookStrategy(
 )
 
 router.get('/', passport.authenticate('facebook', { scope: 'email' }))
-router.get('/callback', passport.authenticate('facebook', { failureRedirect: 'http://localhost:3000/api/auth/facebook/error',}), facebookController.facebook_callback_get)
+router.get('/callback', passport.authenticate('facebook', { failureRedirect: 'https://projectscopey.onrender.com/api/auth/facebook/error',}), facebookController.facebook_callback_get)
 router.get('/success', facebookController.facebook_success_get)
 router.get('/error', facebookController.facebook_error_get)
 // set verifyToken to get data from token
