@@ -38,8 +38,8 @@ passport.deserializeUser(function (obj, cb) {
 })
 
 app.use(cors({
-  origin: ['http://localhost:3000',
-  'https://projectscopey.onrender.com'],
+  origin: 
+  'https://projectscopey.onrender.com',
   methods: 'GET, POST, PUT, DELETE',
   credentials: true,
 }));
