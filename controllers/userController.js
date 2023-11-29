@@ -111,7 +111,7 @@ const user_resetpassword_post = async (req, res) => {
 
         const resetId = resetPassword._id;
         const token = jwt.sign({ email: user.email, resetId }, process.env.KEY_TOKEN);
-        const resetPasswordLink = `https://projectscopey.onrender.com/api/user/updatepassword?token=${token}`;
+       const resetPasswordLink = `${hostname}/api/user/updatepassword?token=${token}`
         const to = resetPassword.email;
         const subject = 'إعادة تعيين كلمة المرور';
         const text = `اضغط على الرابط التالي لإعادة تعيين كلمة المرور: ${resetPasswordLink}`;
