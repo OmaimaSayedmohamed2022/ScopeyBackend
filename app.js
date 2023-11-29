@@ -8,7 +8,7 @@ const userRoutes = require('./routes/userRouter');
 const googleRoutes = require('./routes/googleRouter');
 const facebookRoutes = require('./routes/facebookRouter');
 const cookieParser = require('cookie-parser')
-const User = require('./models/userSchema'); // Correctly import the User model
+const User = require('./models/userSchema'); 
 const { logger, logEvents } = require('./config/logger');
 const errorHandler = require('./config/errorHandler');
 require('dotenv').config();
