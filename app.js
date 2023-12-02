@@ -44,6 +44,21 @@ app.use(cors({
   methods: 'GET, POST, PUT, DELETE',
   credentials: true,
 }));
+http.Response response1 = await http.post(
+  Provider.of<CP>(context, listen: false).getsubmitOrderURL(),
+  body: {
+    'Order': Provider.of<CP>(context, listen: false).getOrder().toString(),
+  },
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+).timeout(Duration(seconds: 10), onTimeout: () {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('Error communicating with the server'), duration: Duration(seconds: 2)),
+  );
+  return http.Response('Error communicating with the server', 500);
+});
+
 
 // Define routes
 app.use('/api/user', userRoutes); 
