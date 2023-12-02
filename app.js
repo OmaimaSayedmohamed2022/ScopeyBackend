@@ -39,11 +39,17 @@ passport.deserializeUser(function (obj, cb) {
 })
 
 app.use(cors({
-  origin: 
-  [process.env.CLIENT_URL,"*"],
+  origin: [process.env.CLIENT_URL, "*"],
   methods: 'GET, POST, PUT, DELETE',
   credentials: true,
 }));
+
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.status(200).send();
+});
 http.Response response1 = await http.post(
   Provider.of<CP>(context, listen: false).getsubmitOrderURL(),
   body: {
