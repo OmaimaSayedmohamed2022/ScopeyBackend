@@ -8,9 +8,10 @@ const userRoutes = require('./routes/userRouter');
 const googleRoutes = require('./routes/googleRouter');
 const facebookRoutes = require('./routes/facebookRouter');
 const cookieParser = require('cookie-parser')
-const User = require('./models/userSchema'); 
+const User = require('./models/userSchema'); // Correctly import the User model
 const { logger, logEvents } = require('./config/logger');
 const errorHandler = require('./config/errorHandler');
+
 require('dotenv').config();
 
 const app = express();
@@ -38,7 +39,8 @@ passport.deserializeUser(function (obj, cb) {
 })
 
 app.use(cors({
-  origin: ['https://projectscopey.onrender.com', "*"],
+  origin: 
+  [process.env.CLIENT_URL,"*"],
   methods: 'GET, POST, PUT, DELETE',
   credentials: true,
 }));
