@@ -73,7 +73,7 @@ http.Response response1 = await http.post(
 
 app.get('/', (req, res) => {
   console.log('Reached the root route!')
-  res.send('hello world!');
+  res.send('hello, Scopey app');
 });
 // ========== Connect DataBase ===========
 mongoose
