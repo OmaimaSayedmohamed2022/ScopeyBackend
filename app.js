@@ -67,9 +67,9 @@ http.Response response1 = await http.post(
 
 
 // Define routes
-app.use('/api/user', userRoutes); 
-app.use('/auth/google', googleRoutes);
-app.use('/api/auth/facebook', facebookRoutes)
+// app.use('/api/user', userRoutes); 
+// app.use('/auth/google', googleRoutes);
+// app.use('/api/auth/facebook', facebookRoutes)
 
 app.get('/', (req, res) => {
   console.log('Reached the root route!')
@@ -79,6 +79,9 @@ app.get('/', (req, res) => {
 mongoose
   .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@scopeyapi.kmdz5wv.mongodb.net/${process.env.DB_NAME}`)
   .then(() => {
+    app.use('/api/user', userRoutes); 
+    app.use('/auth/google', googleRoutes);
+    app.use('/api/auth/facebook', facebookRoutes)
     app.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}/`);
     });
