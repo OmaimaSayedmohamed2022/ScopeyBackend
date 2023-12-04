@@ -50,26 +50,26 @@ app.options('*', (req, res) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.status(200).send();
 });
-http.Response response1 = await http.post(
-  Provider.of<CP>(context, listen: false).getsubmitOrderURL(),
-  body: {
-    'Order': Provider.of<CP>(context, listen: false).getOrder().toString(),
-  },
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-).timeout(Duration(seconds: 10), onTimeout: () {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Error communicating with the server'), duration: Duration(seconds: 2)),
-  );
-  return http.Response('Error communicating with the server', 500);
-});
+// http.Response response1 = await http.post(
+//   Provider.of<CP>(context, listen: false).getsubmitOrderURL(),
+//   body: {
+//     'Order': Provider.of<CP>(context, listen: false).getOrder().toString(),
+//   },
+//   headers: {
+//     'Content-Type': 'application/x-www-form-urlencoded',
+//   },
+// ).timeout(Duration(seconds: 10), onTimeout: () {
+//   ScaffoldMessenger.of(context).showSnackBar(
+//     SnackBar(content: Text('Error communicating with the server'), duration: Duration(seconds: 2)),
+//   );
+//   return http.Response('Error communicating with the server', 500);
+// });
 
 
 // Define routes
-// app.use('/api/user', userRoutes); 
-// app.use('/auth/google', googleRoutes);
-// app.use('/api/auth/facebook', facebookRoutes)
+app.use('/api/user', userRoutes); 
+app.use('/auth/google', googleRoutes);
+app.use('/api/auth/facebook', facebookRoutes)
 
 app.get('/', (req, res) => {
   console.log('Reached the root route!')
@@ -79,11 +79,8 @@ app.get('/', (req, res) => {
 mongoose
   .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@scopeyapi.kmdz5wv.mongodb.net/${process.env.DB_NAME}`)
   .then(() => {
-    app.use('/api/user', userRoutes); 
-    app.use('/auth/google', googleRoutes);
-    app.use('/api/auth/facebook', facebookRoutes)
     app.listen(PORT, () => {
-      console.log(`Server is running at http://localhost:${PORT}/`);
+      console.log(`Server is running at https://scopey.onrender.com:${PORT}/`);
     });
   })
   .catch((err) => {
