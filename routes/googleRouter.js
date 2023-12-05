@@ -20,7 +20,7 @@ passport.use(new GoogleStrategy(
 ));
 
 router.get('/', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/callback', passport.authenticate('google', { failureRedirect: 'https://projectscopey.onrender.com/auth/google/error' }), googleController.google_SignIn);
+router.get('/callback', passport.authenticate('google', { failureRedirect:`${process.env.Gmail_Callback_URL}/error` }), googleController.google_SignIn);
 router.get('/success', googleController.google_SignIn);
 router.get('/error', (req, res) => res.status(500).json({ status: 0, error: 'Error logging in via Google.' }));
  
