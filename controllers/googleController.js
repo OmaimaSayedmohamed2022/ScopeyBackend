@@ -232,7 +232,7 @@ const google_SignIn = async (req, res) => {
       user = new User({
         googleId,
         email: req.user.emails[0].value,
-        username: req.user.displayName,
+        userName: req.user.displayName,
         provider: 'google',
       });
 
@@ -250,7 +250,7 @@ const google_SignIn = async (req, res) => {
     await user.save();
 
     // Check if profile.displayName exists before using it
-    user.username = req.user.displayName || 'DefaultUserName';
+    user.userName = req.user.displayName || 'DefaultUserName';
     await user.save();
 
     return res.status(201).json({ status: 1, success: 'Logged Successfully', token, provider: 'google' });
