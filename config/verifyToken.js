@@ -84,16 +84,16 @@ async function verifyToken(req, res, next) {
           return res.status(500).json({ status: 0, error: error.message });
         }
       } 
-      // else if (decoded.provider === "facebook") {
-      //   try {
-      //     const isTrue = await User.findOne({ tokens: token });
-      //     if (!isTrue || isTrue.provider !== "facebook") {
-      //       return res.status(404).json({ status: 0, message: 'User Token And Provider Not Found DB, Please Login Again' });
-      //     }
-      //   } catch (error) {
-      //     return res.status(500).json({ status: 0, error: error.message });
-      //   }
-      // }
+      else if (decoded.provider === "facebook") {
+        try {
+          const isTrue = await User.findOne({ tokens: token });
+          if (!isTrue || isTrue.provider !== "facebook") {
+            return res.status(404).json({ status: 0, message: 'User Token And Provider Not Found DB, Please Login Again' });
+          }
+        } catch (error) {
+          return res.status(500).json({ status: 0, error: error.message });
+        }
+      }
 
       // Call next() to proceed to the next middleware
       next();
