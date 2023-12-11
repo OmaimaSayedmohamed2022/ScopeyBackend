@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
 mongoose
   .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@scopeyapi.kmdz5wv.mongodb.net/${process.env.DB_NAME}`)
   .then(() => {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server is running at https://scopey.onrender.com:${PORT}/`);
     });
   })
