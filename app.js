@@ -1,22 +1,24 @@
 const express = require('express');
+const app = express();
 const session = require('express-session');
 const passport = require('passport');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const mongoose= require('mongoose');
+const http = require('http');
+const server = http.createServer(app);
+const socketIo = require("socket.io");
+const io= socketIo(server);
+const scopeRouter = require("./routes/scpoeRouter");
 const cors = require('cors');
 const userRoutes = require('./routes/userRouter');
 const googleRoutes = require('./routes/googleRouter');
 const facebookRoutes = require('./routes/facebookRouter');
 const cookieParser = require('cookie-parser')
-const User = require('./models/userSchema'); // Correctly import the User model
+const images = require("./controllers/imagesController")
 const { logger, logEvents } = require('./config/logger');
 const errorHandler = require('./config/errorHandler');
 
 require('dotenv').config();
-
-const app = express();
 const PORT = process.env.PORT || 3000;
-
 app.use(logger);
 app.use(errorHandler);
 app.use(cookieParser())
@@ -50,32 +52,37 @@ app.options('*', (req, res) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.status(200).send();
 });
-// http.Response response1 = await http.post(
-//   Provider.of<CP>(context, listen: false).getsubmitOrderURL(),
-//   body: {
-//     'Order': Provider.of<CP>(context, listen: false).getOrder().toString(),
-//   },
-//   headers: {
-//     'Content-Type': 'application/x-www-form-urlencoded',
-//   },
-// ).timeout(Duration(seconds: 10), onTimeout: () {
-//   ScaffoldMessenger.of(context).showSnackBar(
-//     SnackBar(content: Text('Error communicating with the server'), duration: Duration(seconds: 2)),
-//   );
-//   return http.Response('Error communicating with the server', 500);
-// });
-
 
 // Define routes
 app.use('/api/user', userRoutes); 
 app.use('/auth/google', googleRoutes);
 app.use('/api/auth/facebook', facebookRoutes)
+app.use('/api/image',images)
+app.use('/api/scope' , scopeRouter)
 
 app.get('/', (req, res) => {
   console.log('Reached the root route!')
   res.send('hello, Scopey app');
 });
-// ========== Connect DataBase ===========
+
+
+io.on('connection', (socket) => {
+  console.log('A new client connected');
+
+  // Listen for messages from clients
+  socket.on('message', (message) => {
+      console.log('Message received:', message);
+
+      // Echo the message back down to the client
+      socket.emit('message', message);
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+      console.log('Client disconnected');
+  });
+});
+
 mongoose
   .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@scopeyapi.kmdz5wv.mongodb.net/${process.env.DB_NAME}`)
   .then(() => {
@@ -86,7 +93,6 @@ mongoose
   .catch((err) => {
     console.error('MongoDB connection error:', err);
     logEvents(`${err.name}: ${err.message}\t${err.stack}`, 'mongoErrLog.log');
-  });
 
 
 
